@@ -21,8 +21,7 @@ h1 {
 
 .calcFields input, button{
     background-color: #73C2FB;
-    /* size: 75px; */
-    /* fill: #72A0C1; */
+    text-align: center;
     font-size: 30px;
     color: #733635;
 }

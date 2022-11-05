@@ -66,12 +66,27 @@ function calculate() {      //console.log('in calculate');
 }
 
 function sendData() {    //console.log('in sendData');
-    let calculationArray = [];
-    calculationArray.push(firstNumber);
-    calculationArray.push(secondNumber);
-    calculationArray.push(operator);
-    console.log(calculationArray);
-}
+    let calculationObject = {
+        first: firstNumber,
+        second: secondNumber,
+        op: operator
+    };
+    // calculationArray.push(firstNumber);
+    // calculationArray.push(secondNumber);
+    // calculationArray.push(operator);
+    console.log(calculationObject);
+    $.ajax({
+        method: 'POST',
+        url: '/calcCrud',
+        data: calculationObject
+    }).then(function(response) {
+        clearInputFields();
+    }).catch(function(err) {
+        alert('Error sending message.');
+        console.log(err);
+    })
+}   //END AJAX POST
+
 
 function render() {
     $('#numberOne').val('');
@@ -79,6 +94,20 @@ function render() {
     operator = 0;
     // console.log(operator);
 }
+
+
+
+
+function getCalculation () {
+    $.ajax({
+        method: 'GET',
+        url: '/calcCrud'
+    }).then (function(response){
+        console.log('getting /calCrud');
+    })
+}
+
+
 
 
 //guessOne is a placeholder for data to be Created(app.post) and Read (app.get) and Updated (app.put) and Deleted (app.delete)

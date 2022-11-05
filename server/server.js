@@ -1,16 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
-app.use(express.static('server/public'));
-app.use(bodyParser.urlencoded({extended:true}))
 const PORT = 5000;
 
-app.post()
+let testVar = 10;
+
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.static('server/public'));
 
 
 
 
-// switch
-//  case
-        // break
-        //instead of if then for operators!
+app.get( '/calcCrud', ( req, res )=>{
+    console.log('in /calcrud serverside');
+    res.send(testVar);
+})
+
+// app.post('/calcCrud', (req, res)=>{
+//     console.log('in calcCrud POST');
+//     calcCrud.push(req.body);
+//     res.sendStatus(200);
+// });
+
+app.listen(PORT, () => {
+    console.log ('Server is running on port', PORT)
+  })
