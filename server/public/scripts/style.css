@@ -57,3 +57,9 @@ h1 {
     font-size: 30px;
     color: #72A0C1;
 }
+
+table{
+    display: inline-table;
+    justify-content: center;
+   
+}

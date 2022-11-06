@@ -1,8 +1,12 @@
 // console.log('in client JS');
 
+
+
 let firstNumber = 0;
 let secondNumber = 0;
 let operator = 0;
+let dataToSend = {};
+let returnData = '---';
 
 $(document).ready(onReady);
 
@@ -61,28 +65,43 @@ function calculate() {      //console.log('in calculate');
     } else {        
         firstNumber = numeroUno;
         secondNumber = numeroDos;
-        sendData();
+        makeData();
     }
 }
 
-function sendData() {    //console.log('in sendData');
+function makeData() {    //console.log('in sendData');
     let calculationObject = {
         first: firstNumber,
         second: secondNumber,
         op: operator
     };
-    // calculationArray.push(firstNumber);
-    // calculationArray.push(secondNumber);
-    // calculationArray.push(operator);
+    dataToSend = calculationObject;
     console.log(calculationObject);
+    sendData();
+}
+
+function sendData(){ 
+    console.log(dataToSend);
     $.ajax({
         method: 'POST',
         url: '/calcCrud',
-        data: calculationObject
+        data: dataToSend
     }).then(function(response) {
         clearInputFields();
     }).catch(function(err) {
         alert('Error sending message.');
+        console.log(err);
+    })
+    $.ajax({
+        method: 'GET',
+        url: '/calcCrud',
+    }).then(function(response) {
+        console.log('made it back to get', response);
+        returnData = response
+        console.log(returnData);
+        render();
+    }).catch(function(err) {
+        alert('Unable to get messages.')
         console.log(err);
     })
 }   //END AJAX POST
@@ -91,21 +110,24 @@ function sendData() {    //console.log('in sendData');
 function render() {
     $('#numberOne').val('');
     $('#numberTwo').val('');
-    operator = 0;
+    $('#resultCurrent').val('');
+    $('#resultCurrent').append(`<p>${returnData}</p>`);
+    returnData='---';
+    
     // console.log(operator);
 }
 
 
 
 
-function getCalculation () {
-    $.ajax({
-        method: 'GET',
-        url: '/calcCrud'
-    }).then (function(response){
-        console.log('getting /calCrud');
-    })
-}
+// function getCalculation () {
+//     $.ajax({
+//         method: 'GET',
+//         url: '/calcCrud'
+//     }).then (function(response){
+//         console.log('getting /calCrud');
+//     })
+// }
 
 
 
