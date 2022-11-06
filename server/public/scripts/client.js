@@ -97,8 +97,8 @@ function sendData(){
         url: '/calcCrud',
     }).then(function(response) {
         console.log('made it back to get', response);
-        returnData = response
-        console.log(returnData);
+        returnData = (`${response[0]} ${response[1]} ${response[2]} ${response[3]} ${response[4]}`);
+        console.log('Data returned:',returnData);
         render();
     }).catch(function(err) {
         alert('Unable to get messages.')
@@ -111,7 +111,7 @@ function render() {
     $('#numberOne').val('');
     $('#numberTwo').val('');
     $('#resultCurrent').val('');
-    $('#resultCurrent').append(`<p>${returnData}</p>`);
+    $('#resultCurrent').prepend(`<p>${returnData}</p>`);
     returnData='---';
     
     // console.log(operator);

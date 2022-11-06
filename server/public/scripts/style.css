@@ -19,6 +19,10 @@ h1 {
     text-decoration: underline;
 }
 
+h5 {
+    color: #733635;
+}
+
 .calcFields input, button{
     background-color: #73C2FB;
     text-align: center;
