@@ -1,23 +1,31 @@
 // console.log('in client JS');
 
-
-
-let firstNumber = 0;
-let secondNumber = 0;
 let operator = 0;
 let dataToSend = {};
-let returnData = '---';
+let returnData = '';
 
-$(document).ready(onReady);
-
-function onReady() {// console.log('in client JQuery');
+$(document).ready(onReady);             //
+function onReady() {
     $('#plusButton').click(addPlusOperator);
     $('#minusButton').click(addMinusOperator);
     $('#multiplyButton').click(addMultiplyOperator);
     $('#divideButton').click(addDivideOperator);
     $('#clearButton').click(clearInputFields);
     $('#equalsButton').click(calculate);
-} //END onReady
+    $.ajax({
+        method: 'GET',
+        url: '/calcCrud',
+        // console.log('made it back to get', response);
+    }).then(function(response) {
+        returnData = response;
+        // returnData = (`${response[0]} ${response[1]} ${response[2]} ${response[3]} ${response[4]}`);
+        console.log('Data returned:',returnData);
+        render(returnData)
+    }).catch(function(err) {
+        alert('Unable to get messages.')
+        console.log(err); 
+    }) // call get function();
+}                                      //END onReady
 
 
 function addPlusOperator() {    // console.log('in addOperator')
@@ -53,70 +61,86 @@ function clearInputFields() {    // console.log('in addOperator')
 
 
 function calculate() {      //console.log('in calculate');
-    let numeroUno = $('#numberOne').val();
-    let numeroDos = $('#numberTwo').val();
-    console.log(numeroDos);
+    let firstNumber = $('#numberOne').val();
+    let secondNumber = $('#numberTwo').val();
+    console.log(firstNumber,operator,secondNumber);
     if (operator == 0) {
         alert('Please make sure you have an operator selected!');
         console.log('no operator')
-    } else if (numeroUno == '' || numeroDos == '') {
+    } else if (firstNumber == '' || secondNumber == '') {
         alert('Please make sure you have both fields filled with a number!')
         console.log('missing numbers')
     } else {        
-        firstNumber = numeroUno;
-        secondNumber = numeroDos;
-        makeData();
+        let calculationObject = {
+            first: firstNumber,
+            second: secondNumber,
+            op: operator
+            };
+        dataToSend = calculationObject;
+        sendData(dataToSend);
     }
 }
 
-function makeData() {    //console.log('in sendData');
-    let calculationObject = {
-        first: firstNumber,
-        second: secondNumber,
-        op: operator
-    };
-    dataToSend = calculationObject;
-    console.log(calculationObject);
-    sendData();
-}
-
 function sendData(){ 
-    console.log(dataToSend);
+    console.log('This is the data to send:',dataToSend);
     $.ajax({
         method: 'POST',
         url: '/calcCrud',
         data: dataToSend
     }).then(function(response) {
-        clearInputFields();
+        // clearInputFields();
+        $.ajax({
+            method: 'GET',
+            url: '/calcCrud',
+            // console.log('made it back to get', response);
+        }).then(function(response) {
+            returnData = response;
+            // returnData = (`${response[0]} ${response[1]} ${response[2]} ${response[3]} ${response[4]}`);
+            console.log('Data returned:',returnData);
+            render(returnData)
+        }).catch(function(err) {
+            alert('Unable to get messages.')
+            console.log(err);
+    })
     }).catch(function(err) {
         alert('Error sending message.');
         console.log(err);
     })
-    $.ajax({
-        method: 'GET',
-        url: '/calcCrud',
-    }).then(function(response) {
-        console.log('made it back to get', response);
-        returnData = (`${response[0]} ${response[1]} ${response[2]} ${response[3]} ${response[4]}`);
-        console.log('Data returned:',returnData);
-        render();
-    }).catch(function(err) {
-        alert('Unable to get messages.')
-        console.log(err);
-    })
+    
 }   //END AJAX POST
 
 
-function render() {
+// function render() {
+//     $('#numberOne').val('');
+//     $('#numberTwo').val('');
+//     $('#resultCurrent').val('');
+//     $('#resultCurrent').prepend(`<p>${returnData}</p>`);
+//     returnData='---';
+    
+    // console.log(operator);
+//}
+
+function render(returnData) {
+    // insert GET function when clean
+
+
+    let publishData = returnData;
+    console.log(publishData);
     $('#numberOne').val('');
     $('#numberTwo').val('');
-    $('#resultCurrent').val('');
-    $('#resultCurrent').prepend(`<p>${returnData}</p>`);
-    returnData='---';
+    $('#resultCurrent').empty('');
+    console.log('in render',returnData);
+
+
+      for (i=0; i<publishData.length; i++) {
+    // //      for (let object of objects) {
+               $('#resultCurrent').prepend(`<li>${publishData[i]}</li>`);
+        
+      }
+    // returnData='';
     
     // console.log(operator);
 }
-
 
 
 
