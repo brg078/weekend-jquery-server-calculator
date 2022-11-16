@@ -16,28 +16,29 @@ function mathIsHard(){
         if (calcCrud.op == 'plus') {
             console.log('we are in plus mathIsHard');
             let plusMath = (Number(calcCrud.first) + Number(calcCrud.second));
-            // publishObject = {mathString: `${calcCrud.first} + ${calcCrud.second} = ${plusMath}`}
-            let mathString = `${calcCrud.first} + ${calcCrud.second} = ${plusMath}`
+            let mathString = `${calcCrud.first} + ${calcCrud.second} = ${plusMath}`;
             publishList.push(mathString);
-                // {first: calcCrud.first,
-                // second: calcCrud.second,
-                // operator: calcCrud.op,
-                // solution: plusMath};  
-            console.log('Here is our publish object',publishObject);
-        } else if (calcCrud[calcCrud.length-1].op == 'minus') {
-            publishList.push(calcCrud[calcCrud.length-1].first,' - ',calcCrud[calcCrud.length-1].second,' = ',
-            (Number(calcCrud[calcCrud.length-1].first) - Number(calcCrud[calcCrud.length-1].second)));    
-        } else if (calcCrud[calcCrud.length-1].op == 'multiply') {
-
-            publishList.push(calcCrud[calcCrud.length-1].first,' * ',calcCrud[calcCrud.length-1].second,' = ',
-            (Number(calcCrud[calcCrud.length-1].first) * Number(calcCrud[calcCrud.length-1].second)));    
-        } else if(calcCrud[calcCrud.length-1].op == 'divide') {
-
-            publishList.push(calcCrud[calcCrud.length-1].first,' / ',calcCrud[calcCrud.length-1].second,' = ',
-            (Number(calcCrud[calcCrud.length-1].first) / Number(calcCrud[calcCrud.length-1].second)));    
         } 
-    console.log('after if else',publishObject)
-    // publishList.push(publishObject);
+        else if (calcCrud.op == 'minus') {
+            console.log('we are in minus mathIsHard');
+            let minusMath = (Number(calcCrud.first) - Number(calcCrud.second));
+            let mathString = `${calcCrud.first} - ${calcCrud.second} = ${minusMath}`;
+            publishList.push(mathString);
+        } 
+        else if (calcCrud.op == 'multiply') {
+            console.log('we are in multiply mathIsHard');
+            let multiplyMath = (Number(calcCrud.first) * Number(calcCrud.second));
+            let mathString = `${calcCrud.first} * ${calcCrud.second} = ${multiplyMath}`;
+            publishList.push(mathString);  
+        } 
+        else if(calcCrud.op == 'divide') {
+            console.log('we are in divide mathIsHard');
+            let divideMath = (Number(calcCrud.first) / Number(calcCrud.second));
+            let mathString = `${calcCrud.first} / ${calcCrud.second} = ${divideMath}`;
+            publishList.push(mathString);
+            
+            
+        }
     console.log('here is a publishList',publishList);
     calcCrud = {};
 }
